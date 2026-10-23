@@ -537,6 +537,11 @@
     actions.go = (el) => { startDeck(el.dataset.mode, $("#deck-topic").value); if (deck.cards.length) cardView(); else toast("No cards here yet."); };
   }
 
+  // Kiswahili is optional: one shared toggle for flashcards and Study Buddy (off by default).
+  let swOn = false;
+  const swButton = () =>
+    `<button class="sw-toggle" data-action="sw" aria-pressed="${swOn}" title="${swOn ? "Show English" : "Translate to Kiswahili"}">${icon("globe", "sm")} ${swOn ? "English" : "Kiswahili"}</button>`;
+
   function cardView() {
     if (deck.i >= deck.cards.length) return deckDone();
     const c = deck.cards[deck.i];
@@ -558,11 +563,11 @@
           <div class="face back card">
             ${topicChip(c.topic)}
             <h2>${esc(c.term)}</h2>
-            <p class="answer">${esc(c.short)}</p>
+            ${swOn ? `<p class="answer" lang="sw">${esc(c.sw)}</p>` : `<p class="answer">${esc(c.short)}</p>`}
             <div class="mini-sections">
               <p><strong>${icon("pin", "sm")} Real life:</strong> ${esc(c.africa)}</p>
-              <p lang="sw"><strong>${icon("globe", "sm")} Kiswahili:</strong> ${esc(c.sw)}</p>
             </div>
+            ${swButton()}
           </div>
         </div>
         <div class="btn-row center ${deck.flipped ? "" : "hidden"}">
@@ -572,6 +577,7 @@
         <p class="muted small center">Keyboard: <kbd>Space</kbd> flip · <kbd>1</kbd> still learning · <kbd>2</kbd> knew it</p>
       </div>`;
     actions.flip = () => { deck.flipped = !deck.flipped; cardView(); };
+    actions.sw = () => { swOn = !swOn; cardView(); };
     actions.rate = (el) => rate(el.dataset.k === "1");
     actions.stop = () => deckDone();
   }
@@ -659,9 +665,10 @@
           <h2 class="concept-title">${esc(c.term)}</h2>
           <p class="answer">${esc(c.short)}</p>
           <div class="sections">
-            <section><h3>In simple words <button class="icon-btn" data-action="say" data-lang="en" data-text="${esc(c.simple)}" aria-label="Read aloud">${icon("speak", "sm")}</button></h3><p>${esc(c.simple)}</p></section>
+            <section${swOn ? ' lang="sw"' : ""}><h3>${swOn ? "Kwa maneno rahisi" : "In simple words"}
+              <span class="h3-tools">${swButton()}<button class="icon-btn" data-action="say" data-lang="${swOn ? "sw" : "en"}" data-text="${esc(swOn ? c.sw : c.simple)}" aria-label="Read aloud">${icon("speak", "sm")}</button></span></h3>
+              <p>${esc(swOn ? c.sw : c.simple)}</p></section>
             <section class="africa"><h3>${icon("pin", "sm")} Like in real life</h3><p>${esc(c.africa)}</p></section>
-            <section class="sw" lang="sw"><h3>${icon("globe", "sm")} Kwa Kiswahili <button class="icon-btn" data-action="say" data-lang="sw" data-text="${esc(c.sw)}" aria-label="Soma kwa sauti">${icon("speak", "sm")}</button></h3><p>${esc(c.sw)}</p></section>
             <section class="tip"><h3>${icon("bulb", "sm")} Exam tip</h3><p>${esc(c.tip)}</p></section>
           </div>
           ${related.length ? `<p class="related">Related: ${related.map((r) => `<button class="chip" data-action="open" data-id="${r.id}">${esc(r.term)}</button>`).join(" ")}</p>` : ""}
@@ -688,6 +695,7 @@
       if (window.innerWidth < 860) $("#b-detail").scrollIntoView({ behavior: "smooth" });
     };
     actions.say = (el) => speak(el.dataset.text, el.dataset.lang);
+    actions.sw = () => { swOn = !swOn; drawDetail(); };
     actions.prompt = (el) => openPrompt({ goal: el.dataset.goal, concept: E.concept(current) });
     drawList();
     drawDetail();
@@ -717,12 +725,12 @@
           <div class="anatomy">
             ${sections.map((s) => `<div class="part part-${s.label.toLowerCase().replace(/\s+/g, "-")}"><span class="part-label">${esc(s.label)}</span><pre>${esc(s.text)}</pre></div>`).join("")}
           </div>
-          <div class="btn-row">
+          <p class="muted small">Always double-check AI answers against Microsoft Learn. AI can be confidently wrong too!</p>
+          <div class="dialog-actions">
             <button type="button" class="btn primary" id="p-copy">${icon("copy", "sm")} Copy prompt</button>
             <a class="btn secondary" target="_blank" rel="noopener" href="https://claude.ai/new?q=${encodeURIComponent(text)}">Open in Claude</a>
-            <a class="btn ghost" target="_blank" rel="noopener" href="https://chatgpt.com/?q=${encodeURIComponent(text)}">Open in ChatGPT</a>
+            <a class="btn secondary" target="_blank" rel="noopener" href="https://chatgpt.com/?q=${encodeURIComponent(text)}">Open in ChatGPT</a>
           </div>
-          <p class="muted small">Always double-check AI answers against Microsoft Learn. AI can be confidently wrong too!</p>
         </form>`;
       $("#p-goal", dlg)?.addEventListener("change", (e) => { state.goal = e.target.value; draw(); });
       $("#p-lang", dlg).addEventListener("change", (e) => { state.language = e.target.value; S.update((s) => (s.settings.language = e.target.value)); draw(); });
