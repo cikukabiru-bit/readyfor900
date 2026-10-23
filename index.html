@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Readyfor900 · Unofficial AZ-900 Study Companion</title>
+  <meta name="description" content="Free, unofficial AZ-900 study companion: original quiz questions with explanations, spaced-repetition flashcards, a readiness tracker, a study planner and an AI prompt builder, with African examples and Kiswahili.">
+  <meta name="theme-color" content="#3b4fd8">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233b4fd8'/%3E%3Cpath d='M20 44a10 10 0 0 1-1-20 13 13 0 0 1 25-2 9 9 0 0 1 1 22z' fill='%23fff'/%3E%3Cpolyline points='24,33 30,38.5 40,27' fill='none' stroke='%233b4fd8' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='48' cy='16' r='6' fill='%23f59f00'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip" href="#view">Skip to content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#/home" aria-label="Readyfor900 home">
+        <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="14" class="logo-bg"/>
+          <path d="M20 44a10 10 0 0 1-1-20 13 13 0 0 1 25-2 9 9 0 0 1 1 22z" fill="#fff"/>
+          <polyline points="24,33 30,38.5 40,27" fill="none" class="logo-check" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="48" cy="16" r="6" class="logo-sun"/>
+        </svg>
+        <span class="brand-text"><strong>Readyfor<span>900</span></strong><small>Unofficial AZ-900 study companion</small></span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="#/home" data-route="home"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Readiness</span></a>
+        <a href="#/quiz" data-route="quiz"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Quiz</span></a>
+        <a href="#/flashcards" data-route="flashcards"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg><span>Flashcards</span></a>
+        <a href="#/buddy" data-route="buddy"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg><span>Study Buddy</span></a>
+        <a href="#/planner" data-route="planner"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></a>
+        <a href="#/about" data-route="about" class="nav-about"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>About</span></a>
+      </nav>
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+    <div class="sunset-stripe" aria-hidden="true"></div>
+  </header>
+
+  <main id="view" tabindex="-1"></main>
+
+  <footer class="footer">
+    <p><strong>Unofficial.</strong> Readyfor900 is not affiliated with or endorsed by Microsoft. All questions are original practice material based on the public AZ-900 skills outline. They are not real exam questions.</p>
+    <p>Built for the PLP #1MillionDevs Vibe Coding Hackathon · <a href="#/about">About &amp; your data</a></p>
+  </footer>
+
+  <dialog id="prompt-dialog" aria-label="AI tutor prompt"></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <noscript><p class="noscript">Readyfor900 needs JavaScript to run.</p></noscript>
+
+  <!-- Content (original, unofficial) -->
+  <script src="js/data/topics.js"></script>
+  <script src="js/data/questions-d1.js"></script>
+  <script src="js/data/questions-d2.js"></script>
+  <script src="js/data/questions-d3.js"></script>
+  <script src="js/data/concepts.js"></script>
+  <!-- Logic -->
+  <script src="js/engine.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
